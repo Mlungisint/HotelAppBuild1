@@ -99,8 +99,8 @@ public class build1Test {
         commonUtil.Dropdown_Select(elements.numberOfRooms, elements.numberOfRooms, "2");
 
         //I will rework this to get date from separate class
-        commonUtil.typeOnElement(elements.checkInDate,"28/07/2025");
-        commonUtil.typeOnElement(elements.checkOutDate,"29/07/2025");
+        commonUtil.typeOnElement(elements.checkInDate,date1);
+        commonUtil.typeOnElement(elements.checkOutDate,date2);
 
         commonUtil.Dropdown_Select(elements.adultPerRoomDrp,elements.adultPerRoomDrp,"2");
         commonUtil.Dropdown_Select(elements.childrenPeRoomDrp,elements.childrenPeRoomDrp,"1");
