@@ -21,6 +21,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Create Report diretory
+          run: mkdir -p Report
+
       - name: 🧪 Build and Test with Maven
         run: mvn clean test
 
@@ -28,4 +31,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ExtentReport
-          path: Reports/ExtentReport.html
+          path: Report/ExtentReport.html
