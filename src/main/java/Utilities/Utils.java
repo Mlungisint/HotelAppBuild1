@@ -15,12 +15,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.ITestContext;
-//import za.co.absa.functionstechnology.automation.reporting.ExtentReportManager;
-//import za.co.absa.functionstechnology.automation.selenium.CommonUtil;
-//import za.co.absa.functionstechnology.automation.selenium.LocatorUtil;
-//import za.co.absa.functionstechnology.automation.selenium.WebdriverUtil;
-//import za.co.absa.functionstechnology.automation.utilities.ExcelUtils;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.Rectangle;
@@ -176,13 +171,6 @@ public class Utils {
         } else {
             //ExtentReportManager.getInstance(currentClass);
         }
-    }
-
-    public String getSuiteName(ITestContext context) {
-        if (context != null && context.getCurrentXmlTest() != null) {
-            return context.getCurrentXmlTest().getSuite().getName();
-        }
-        return "";
     }
 
     public String captureScreenShotForDesktop(String fileName) throws Exception {

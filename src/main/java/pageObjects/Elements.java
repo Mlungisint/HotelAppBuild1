@@ -19,6 +19,13 @@ public class Elements {
     public String table="XPATH||//table[@class='login']/tbody";
     public String table2="XPATH||//*[@id=\"select_form\"]/table/tbody/tr[2]/td/table";
     public String continueBtn="NAME||continue";
+    public String radioBtn="XPATH||//*[@id=\"select_form\"]/table/tbody/tr[2]/td/table//input[@type='radio']";
+
+//    Assert field
+    public String hotelName="XPATH||//input[@name='hotel_name_dis']";
+    public String reservedNumOfRooms="XPATH||//input[@name='room_num_dis']";
+
+
 
 
 

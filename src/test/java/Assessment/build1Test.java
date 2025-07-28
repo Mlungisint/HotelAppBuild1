@@ -1,7 +1,6 @@
 package Assessment;
 
 
-
 import Utilities.Utils;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
@@ -21,6 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import Utilities.CSVUtil;
+import org.testng.annotations.DataProvider;
+
 import Utilities.CommonUtil;
 import pageObjects.Elements;
 
@@ -32,7 +34,7 @@ public class build1Test {
     public Utilities.WebdriverUtil driverUtil;
     public Utilities.Utils Utils;
     protected CommonUtil commonUtil;
-//    public Utilities.CommonUtil CommonUtil;
+    //    public Utilities.CommonUtil CommonUtil;
     static ExtentTest test;
     static ExtentReports report;
     Elements elements = new Elements();
@@ -62,35 +64,33 @@ public class build1Test {
 //        driver.navigate().to("https://adactinhotelapp.com/");
 
         commonUtil = new CommonUtil(driver); //initialsed commonUtil
-        Utils util=new Utils(driver);
+        Utils util = new Utils(driver);
 
     }
 
     @Test
     public void logIn() throws Exception {
         String username = AutoPropertiesFile.getProperty("username");
-        String password=AutoPropertiesFile.getProperty("password");
+        String password = AutoPropertiesFile.getProperty("password");
         commonUtil.waitForElement(elements.username);
 
 
         System.out.println(elements.username);
         commonUtil.typeOnElement(elements.username, username);
-        commonUtil.typeOnElement(elements.password,"BBP306");
+        commonUtil.typeOnElement(elements.password, "BBP306");
         commonUtil.clickOnElement(elements.signBtn);
-        String searchPage=commonUtil.GetCurrentUrl();
+        String searchPage = commonUtil.GetCurrentUrl();
 
-        Assert.assertEquals("https://adactinhotelapp.com/SearchHotel.php",searchPage);
+        Assert.assertEquals("https://adactinhotelapp.com/SearchHotel.php", "Double");
     }
 
     @Test
     public void seachHotel() throws Exception {
         commonUtil.waitForElement(elements.searchBtn);
-        String date1=commonUtil.getFutureDate(20);
-        String date2=commonUtil.getFutureDate(30);
+        String date1 = commonUtil.getFutureDate(20);
+        String date2 = commonUtil.getFutureDate(30);
         System.out.println(date2);
         System.out.println("test 2");
-
-
 
 
         commonUtil.Dropdown_Select(elements.locationDrp, elements.locationDrp, "London");
@@ -99,11 +99,13 @@ public class build1Test {
         commonUtil.Dropdown_Select(elements.numberOfRooms, elements.numberOfRooms, "2");
 
         //I will rework this to get date from separate class
-        commonUtil.typeOnElement(elements.checkInDate,date1);
-        commonUtil.typeOnElement(elements.checkOutDate,date2);
+        commonUtil.clear(elements.checkInDate);
+        commonUtil.typeOnElement(elements.checkInDate, date1);
+        commonUtil.clear(elements.checkOutDate);
+        commonUtil.typeOnElement(elements.checkOutDate, date2);
 
-        commonUtil.Dropdown_Select(elements.adultPerRoomDrp,elements.adultPerRoomDrp,"2");
-        commonUtil.Dropdown_Select(elements.childrenPeRoomDrp,elements.childrenPeRoomDrp,"1");
+        commonUtil.Dropdown_Select(elements.adultPerRoomDrp, elements.adultPerRoomDrp, "2");
+        commonUtil.Dropdown_Select(elements.childrenPeRoomDrp, elements.childrenPeRoomDrp, "1");
         commonUtil.clickOnElement(elements.searchBtn);
     }
 
@@ -111,8 +113,18 @@ public class build1Test {
     public void selectHotel() throws Exception {
 
         commonUtil.waitForElement(elements.continueBtn);
-        commonUtil.selectCheckboxForMatchingRow(driver,elements.table2,"Hotel Creek");
+//        Need to fix the method for table iteration
+        commonUtil.selectCheckboxForMatchingRow(driver, elements.table2, "Hotel Creek");
+
+//        click rado button (temp solution)
+        commonUtil.clickOnElement(elements.radioBtn);
         commonUtil.clickOnElement(elements.continueBtn);
+
+
+//        Assert results
+        String revervedNumOfRms=commonUtil.getText(elements.reservedNumOfRooms);
+        Assert.assertEquals(revervedNumOfRms,"Double");
+
     }
 
 
