@@ -22,7 +22,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Create Report diretory
-          run: mkdir -p Report
+        run: mkdir -p Report
 
       - name: 🧪 Build and Test with Maven
         run: mvn clean test
