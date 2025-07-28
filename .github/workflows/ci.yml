@@ -25,7 +25,7 @@ jobs:
         run: mvn clean test
 
       - name: 📦 Upload Extent Report
-          uses: actions/upload-artifact@v3
-          with:
-            name: ExtentReport
-            path: test-output/ExtentReport.html
+        uses: actions/upload-artifact@v3
+        with:
+          name: ExtentReport
+          path: test-output/ExtentReport.html
