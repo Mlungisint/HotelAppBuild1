@@ -1,19 +1,16 @@
 package Assessment;
 
 
-import Utilities.Utils;
+import Utilities.*;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-//import com.relevantcodes.extentreports.ExtentReports;
-//import com.relevantcodes.extentreports.ExtentTest;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import pageObjects.Elements;
-import Utilities.CommonUtil;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -23,11 +20,7 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-import Utilities.CSVUtil;
-import org.testng.annotations.DataProvider;
-
 import Utilities.CommonUtil;
-import pageObjects.Elements;
 import testData.DataSource;
 
 public class build1Test {
@@ -38,9 +31,10 @@ public class build1Test {
     public Utilities.WebdriverUtil driverUtil;
     public Utilities.Utils Utils;
     protected CommonUtil commonUtil;
-    //    public Utilities.CommonUtil CommonUtil;
     static ExtentTest test;
     static ExtentReports report;
+    protected ExtentReports extent;
+    //    protected ExtentTest test;
     Elements elements = new Elements();
 
     JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -50,6 +44,7 @@ public class build1Test {
         input = new FileInputStream("src/test/resources/selenium.properties");
         AutoPropertiesFile.load(input);
         String baseUrl = AutoPropertiesFile.getProperty("baseUrl");
+        extent = ExtentManager.getInstance();
 
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.hh.mm.ss").format(new Date());
 
@@ -73,6 +68,8 @@ public class build1Test {
 
     @Test
     public void logIn() throws Exception {
+
+        test = extent.createTest("Login with valid credentials");
         String username = AutoPropertiesFile.getProperty("username");
         String password = AutoPropertiesFile.getProperty("password");
         commonUtil.waitForElement(elements.username);
@@ -85,10 +82,16 @@ public class build1Test {
         String searchPage = commonUtil.GetCurrentUrl();
 
         Assert.assertEquals("https://adactinhotelapp.com/SearchHotel.php", searchPage);
+        if (searchPage == "https://adactinhotelapp.com/SearchHotel.php") {
+            test.pass("Test Passed successfully");
+        } else {
+            test.fail("Test failed");
+        }
     }
 
     @Test(dataProvider = "loginCSVData", dataProviderClass = DataSource.class)
     public void seachHotel(String testCase, String Username, String Password, String location, String hotel, String roomType, String numRooms) throws Exception {
+        test = extent.createTest("Search hotel screen");
         commonUtil.waitForElement(elements.searchBtn);
         String date1 = commonUtil.getFutureDate(20);
         String date2 = commonUtil.getFutureDate(30);
@@ -110,11 +113,16 @@ public class build1Test {
         commonUtil.Dropdown_Select(elements.adultPerRoomDrp, elements.adultPerRoomDrp, "2");
         commonUtil.Dropdown_Select(elements.childrenPeRoomDrp, elements.childrenPeRoomDrp, "1");
         commonUtil.clickOnElement(elements.searchBtn);
+        if (commonUtil.isPresent(elements.locationDrp) == true) {
+            test.pass("Test Passed successfully");
+        } else {
+            test.fail("Test failed");
+        }
     }
 
-    @Test (dataProvider = "loginCSVData", dataProviderClass = DataSource.class)
+    @Test(dataProvider = "loginCSVData", dataProviderClass = DataSource.class)
     public void selectHotel(String testCase, String Username, String Password, String location, String hotel, String roomType, String numRooms) throws Exception {
-
+        test = extent.createTest("Booking data validation");
         commonUtil.waitForElement(elements.continueBtn);
 //        Need to fix the method for table iteration
         commonUtil.selectCheckboxForMatchingRow(driver, elements.table2, hotel);
@@ -126,22 +134,35 @@ public class build1Test {
 
 //        Assert results
         String reservedNumOfRms = commonUtil.getText(elements.reservedNumOfRooms);
-        String hotelName=commonUtil.getText(elements.reservedHotel);
+        String hotelName = commonUtil.getText(elements.reservedHotel);
 
         System.out.println(reservedNumOfRms);
         System.out.println(hotelName);
 
-//        I need to fix the string to trim the rest of the charatcters
-        Assert.assertEquals(reservedNumOfRms, numRooms+" Room(s)");
-        Assert.assertEquals(hotel,hotelName);
+
+        Assert.assertEquals(reservedNumOfRms, numRooms);
+        Assert.assertEquals(hotel, hotelName);
+        if (reservedNumOfRms == numRooms) {
+            test.pass("Test Passed successfully");
+        } else {
+            test.fail("Test failed");
+        }
+
+        if (hotel == hotelName) {
+            test.pass("Test Passed successfully");
+        } else {
+            test.fail("Test failed");
+        }
 
     }
 
 
-//    @AfterTest
-//    public void closeBrowser() {
-//        // Close browser after test
+    @AfterTest
+    public void closeBrowser() {
+        // Close browser after test
 //        driver.quit();
-//    }
+        extent.flush();
+
+    }
 }
 

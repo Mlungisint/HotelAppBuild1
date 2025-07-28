@@ -1,7 +1,0 @@
-2025-Jul-02 09:22:26 pm [main] INFO  Utilities.ExcelUtils - Processing datasheet: C:/Users/mlung/OneDrive/Documents/Njabulo/VPC_PublicWEb_TC1/src/test/resources/Test Data/ReadData.xlsx
-2025-Jul-02 09:22:26 pm [main] INFO  Utilities.ExcelUtils - Sheet Name: data
-2025-Jul-02 09:22:26 pm [main] INFO  Utilities.ExcelUtils - Reading workbook from file:C:/Users/mlung/OneDrive/Documents/Njabulo/VPC_PublicWEb_TC1/src/test/resources/Test Data/ReadData.xlsx
-2025-Jul-02 09:22:29 pm [main] DEBUG Utilities.ExcelUtils - Reading sheet rows
-2025-Jul-02 09:22:29 pm [main] DEBUG Utilities.ExcelUtils - Getting column headers
-2025-Jul-02 09:22:29 pm [main] DEBUG Utilities.ExcelUtils - Closing file
-2025-Jul-02 09:22:29 pm [main] DEBUG Utilities.ExcelUtils - Converting data list to two-d array
