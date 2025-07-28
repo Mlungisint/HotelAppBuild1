@@ -22,8 +22,9 @@ public class Elements {
     public String radioBtn="XPATH||//*[@id=\"select_form\"]/table/tbody/tr[2]/td/table//input[@type='radio']";
 
 //    Assert field
-    public String hotelName="XPATH||//input[@name='hotel_name_dis']";
+    public String reservedHotel="XPATH||//input[@name='hotel_name_dis']";
     public String reservedNumOfRooms="XPATH||//input[@name='room_num_dis']";
+    public String reservelocation="XPATH||//input[@name='location_dis']";
 
 
 

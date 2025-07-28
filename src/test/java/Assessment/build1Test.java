@@ -2,8 +2,10 @@ package Assessment;
 
 
 import Utilities.Utils;
-import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+//import com.relevantcodes.extentreports.ExtentReports;
+//import com.relevantcodes.extentreports.ExtentTest;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -20,11 +22,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+
 import Utilities.CSVUtil;
 import org.testng.annotations.DataProvider;
 
 import Utilities.CommonUtil;
 import pageObjects.Elements;
+import testData.DataSource;
 
 public class build1Test {
     WebDriver driver;
@@ -48,7 +52,6 @@ public class build1Test {
         String baseUrl = AutoPropertiesFile.getProperty("baseUrl");
 
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.hh.mm.ss").format(new Date());
-        report = new ExtentReports(System.getProperty("user.dir") + "\\Reports\\TestCase1" + timeStamp + ".html", false);
 
 //        Browser setup
         System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\Drivers\\chromedriver.exe");
@@ -81,22 +84,22 @@ public class build1Test {
         commonUtil.clickOnElement(elements.signBtn);
         String searchPage = commonUtil.GetCurrentUrl();
 
-        Assert.assertEquals("https://adactinhotelapp.com/SearchHotel.php", "Double");
+        Assert.assertEquals("https://adactinhotelapp.com/SearchHotel.php", searchPage);
     }
 
-    @Test
-    public void seachHotel() throws Exception {
+    @Test(dataProvider = "loginCSVData", dataProviderClass = DataSource.class)
+    public void seachHotel(String testCase, String Username, String Password, String location, String hotel, String roomType, String numRooms) throws Exception {
         commonUtil.waitForElement(elements.searchBtn);
         String date1 = commonUtil.getFutureDate(20);
         String date2 = commonUtil.getFutureDate(30);
-        System.out.println(date2);
-        System.out.println("test 2");
+
+        System.out.println(testCase + " | " + Username + " | " + Password + " | " + location + " | " + hotel + " | " + roomType + " | " + numRooms);
 
 
-        commonUtil.Dropdown_Select(elements.locationDrp, elements.locationDrp, "London");
-        commonUtil.Dropdown_Select(elements.hotelsDrp, elements.hotelsDrp, "Hotel Creek");
-        commonUtil.Dropdown_Select(elements.roomTypeDrp, elements.roomTypeDrp, "Double");
-        commonUtil.Dropdown_Select(elements.numberOfRooms, elements.numberOfRooms, "2");
+        commonUtil.Dropdown_Select(elements.locationDrp, elements.locationDrp, location);
+        commonUtil.Dropdown_Select(elements.hotelsDrp, elements.hotelsDrp, hotel);
+        commonUtil.Dropdown_Select(elements.roomTypeDrp, elements.roomTypeDrp, roomType);
+        commonUtil.Dropdown_Select(elements.numberOfRooms, elements.numberOfRooms, numRooms);
 
         //I will rework this to get date from separate class
         commonUtil.clear(elements.checkInDate);
@@ -109,12 +112,12 @@ public class build1Test {
         commonUtil.clickOnElement(elements.searchBtn);
     }
 
-    @Test
-    public void selectHotel() throws Exception {
+    @Test (dataProvider = "loginCSVData", dataProviderClass = DataSource.class)
+    public void selectHotel(String testCase, String Username, String Password, String location, String hotel, String roomType, String numRooms) throws Exception {
 
         commonUtil.waitForElement(elements.continueBtn);
 //        Need to fix the method for table iteration
-        commonUtil.selectCheckboxForMatchingRow(driver, elements.table2, "Hotel Creek");
+        commonUtil.selectCheckboxForMatchingRow(driver, elements.table2, hotel);
 
 //        click rado button (temp solution)
         commonUtil.clickOnElement(elements.radioBtn);
@@ -122,8 +125,15 @@ public class build1Test {
 
 
 //        Assert results
-        String revervedNumOfRms=commonUtil.getText(elements.reservedNumOfRooms);
-        Assert.assertEquals(revervedNumOfRms,"Double");
+        String reservedNumOfRms = commonUtil.getText(elements.reservedNumOfRooms);
+        String hotelName=commonUtil.getText(elements.reservedHotel);
+
+        System.out.println(reservedNumOfRms);
+        System.out.println(hotelName);
+
+//        I need to fix the string to trim the rest of the charatcters
+        Assert.assertEquals(reservedNumOfRms, numRooms+" Room(s)");
+        Assert.assertEquals(hotel,hotelName);
 
     }
 
@@ -133,6 +143,5 @@ public class build1Test {
 //        // Close browser after test
 //        driver.quit();
 //    }
-
-
 }
+
