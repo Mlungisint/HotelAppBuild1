@@ -28,4 +28,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ExtentReport
-          path: test-output/ExtentReport.html
+          path: System.getProperty("user.dir") + "\\Reports"
