@@ -81,6 +81,8 @@ public class build1Test {
         commonUtil.clickOnElement(elements.signBtn);
         String searchPage = commonUtil.GetCurrentUrl();
 
+        System.out.println(searchPage);
+
         Assert.assertEquals("https://adactinhotelapp.com/SearchHotel.php", searchPage);
         if (searchPage == "https://adactinhotelapp.com/SearchHotel.php") {
             test.pass("Test Passed successfully");
@@ -142,17 +144,17 @@ public class build1Test {
 
         Assert.assertEquals(reservedNumOfRms, numRooms);
         Assert.assertEquals(hotel, hotelName);
-        if (reservedNumOfRms == numRooms) {
-            test.pass("Test Passed successfully");
-        } else {
-            test.fail("Test failed");
-        }
+        if (reservedNumOfRms == numRooms) {test.pass("Test Passed successfully");
+        } else {test.fail("Test failed");}
 
-        if (hotel == hotelName) {
-            test.pass("Test Passed successfully");
-        } else {
-            test.fail("Test failed");
-        }
+        if (hotel == hotelName) {test.pass("Test Passed successfully");
+        } else {test.fail("Test failed");}
+
+    }
+
+    @Test
+    public void CompleteBooking(){
+
 
     }
 

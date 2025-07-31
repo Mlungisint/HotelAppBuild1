@@ -4,7 +4,7 @@
         <property name="filePattern">${date:yyyy-MM-dd-hh_mm_ss}</property>
     </Properties>
     <Appenders>
-        <File name="File" fileName="Logs/ORMS_Log_${filePattern}.log" append="false">
+        <File name="File" fileName="Logs/ilabAssessment_Log_${filePattern}.log" append="false">
             <PatternLayout
                     pattern="%d{yyyy-MMM-dd hh:mm:ss a} [%t] %-5level %logger{36} - %msg%n" />
         </File>
